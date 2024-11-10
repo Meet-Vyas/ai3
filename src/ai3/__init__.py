@@ -160,7 +160,7 @@ def convert(module,
             dtype=None) -> Model:
     """
     Converts every operation in a *DNN* to an implementation of the user
-    specified algorithm returning a :class:`Model` completly managed by |name|.
+    specified algorithm returning a :class:`Model` completely managed by |name|.
 
     Algorithmic selection is performed by passing a mapping from strings
     containing names of the operations to swap to a :type:`AlgorithmicSelector`.
