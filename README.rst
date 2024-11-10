@@ -77,7 +77,7 @@ Example:
 *convert*
 ~~~~~~~~~~~~~~
 Converts every operation in a *DNN* to an implementation of the user
-specified algorithm returning a *Model* completly managed by |name|.
+specified algorithm returning a *Model* completely managed by |name|.
 
 Algorithmic selection is performed by passing a mapping from strings
 containing names of the operations to swap to a *AlgorithmicSelector*.
