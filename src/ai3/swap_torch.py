@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# TODO swaps and converts the algos which need to be replaced
 
 from . import _core, layers, errors, utils
 from typing import Mapping, Optional, List, Sequence, Union, DefaultDict, Tuple, Type
@@ -87,22 +88,22 @@ def op_type_to_str(op_type: Type) -> str:
     errors.unsupported_mod(op_type)
 
 
-def iscontainer(name: str) -> bool:
+def isContainer(name: str) -> bool:
     return '.' in name
 
 
-def getmodule(module: nn.Module, name) -> nn.Module:
-    if iscontainer(name):
+def getModule(module: nn.Module, name) -> nn.Module:
+    if isContainer(name):
         names = name.split('.', 1)
-        return getmodule(getattr(module, names[0]), names[1])
+        return getModule(getattr(module, names[0]), names[1])
     else:
         return getattr(module, name)
 
 
-def setmodule(module: nn.Module, name, new: nn. Module) -> nn.Module:
-    if iscontainer(name):
+def setModule(module: nn.Module, name, new: nn.Module) -> nn.Module:
+    if isContainer(name):
         names = name.split('.', 1)
-        setmodule(
+        setModule(
             getattr(module, names[0]), names[1], new)
     else:
         setattr(module, name, new)
@@ -317,7 +318,7 @@ def convert_layers(complete_module: nn.Module, dtype,
             else:
                 errors.unsupported_mod(node.target)
         elif node.op == 'call_module':
-            mod = getmodule(
+            mod = getModule(
                 complete_module, node.target)
             if isinstance(mod, nn.Dropout):
                 continue
@@ -372,7 +373,7 @@ def swap_operation(
         if with_shapes:
             node_input_shape = node.meta['tensor_meta'].shape
         if node.op == 'call_module':
-            mod = getmodule(module, node.target)
+            mod = getModule(module, node.target)
             if isinstance(mod, (orig_op_type, swap_with)):
                 algo = get_algo_inc_counter(
                     mod, selector,
@@ -380,7 +381,7 @@ def swap_operation(
                 if algo == 'torch':
                     continue
                 if isinstance(mod, orig_op_type):
-                    module = setmodule(
+                    module = setModule(
                         module, node.target,
                         swap_with(mod, algo))
                 else:

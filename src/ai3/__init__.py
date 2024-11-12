@@ -1,4 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
+# TODO Entry function
 
 """Provides the easy-to-use fine-grain algorithmic control over an existing *DNN*
 
@@ -66,7 +67,6 @@ Example:
     True
 """
 
-
 DEFAULT_ALGOS: Mapping[str, str] = {key: utils.DEFAULT_OPTION for key in [
     'conv2d', 'linear', 'relu', 'maxpool2d', 'avgpool2d', 'adaptiveavgpool2d', 'flatten']}
 
@@ -77,7 +77,7 @@ See :ref:`supported-operations` for supported acceleration platform by algorithm
 """
 
 
-class Model():
+class Model:
     """The model which performs the operations using the user specified
     algorithms."""
 

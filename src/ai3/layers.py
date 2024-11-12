@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: Apache-2.0
 
+from abc import ABC
 from typing import (
     Union,
     Sequence,
     Optional,
     Tuple
 )
-from abc import ABC, abstractmethod
+
 from . import _core, errors, utils
 
 
@@ -21,7 +22,7 @@ class Layer(ABC):
 
 class Conv2D(Layer):
     def __init__(
-            self,  weight, bias, _stride: Union[int, Tuple[int, ...]],
+            self, weight, bias, _stride: Union[int, Tuple[int, ...]],
             padding: Union[str, Union[int, Tuple[int, ...]]],
             _dilation: Union[int, Tuple[int, ...]],
             padding_mode: Union[str, int, _core.PaddingMode],
@@ -36,11 +37,11 @@ class Conv2D(Layer):
                 not in ['zeros', 'reflect', 'replicate', 'circular'],
                 f'invalid padding mode: {padding_mode}')
             padding_mode = _core.PaddingMode({
-                'zeros': _core.PaddingMode.zeros,
-                'reflect': _core.PaddingMode.reflect,
-                'replicate': _core.PaddingMode.replicate,
-                'circular': _core.PaddingMode.circular
-            }[padding_mode])
+                                                 'zeros': _core.PaddingMode.zeros,
+                                                 'reflect': _core.PaddingMode.reflect,
+                                                 'replicate': _core.PaddingMode.replicate,
+                                                 'circular': _core.PaddingMode.circular
+                                             }[padding_mode])
 
         weight_addr = utils.get_address(weight)
         weight_shape = utils.get_shape(weight)
